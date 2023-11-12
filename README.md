@@ -20,11 +20,13 @@ Ensure you have [Windows Terminal](https://aka.ms/terminal) installed.
 
 If using this to work with multiple repositories, for simplicity, it's best to structure your folders with each repo alongside, and with your config alongside too:
 
+```
 ├── BasePath
 │ ├── Repo1
 │ ├── Repo2
 │ ├── TTE
 │ │ ├── config.json
+```
 
 ## Example
 
