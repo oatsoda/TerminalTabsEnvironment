@@ -61,7 +61,7 @@ else {
 			}
 			
 			$scriptFileContents = "#script for tab $tabNumber
-cd $directory
+cd ""$directory""
 $($tab.command)
 # end script
 			"
@@ -93,12 +93,12 @@ wt$($windowsTerminalParameters) focus-tab -t $($config.focusTab)"
 
 		$preScriptFileFullPath = Join-Path $ConfigFolderPath $PreScriptFileName
 		if (Test-Path $preScriptFileFullPath) {
-			& wt -p $WindowsTerminalProfileName -d $ConfigFolderPath --title "PreScript" pwsh.exe $preScriptFileFullPath;
+			& $preScriptFileFullPath;
 		}
 
 		$preScriptAdditionsFileFullPath = Join-Path $ConfigFolderPath $PreScriptAdditionsFileName
 		if (Test-Path $preScriptAdditionsFileFullPath) {
-			& wt -p $WindowsTerminalProfileName -d $ConfigFolderPath --title "PreScript Additions" pwsh.exe $preScriptAdditionsFileFullPath;
+			& $preScriptAdditionsFileFullPath;
 		}
 		
 		###################################################################################

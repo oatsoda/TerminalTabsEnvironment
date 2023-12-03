@@ -85,6 +85,8 @@ Example:
 - `isRelative` - Whether the `directory` value is absolute or relative to the provided `BaseTabPath`
 - `command` - The command to execute initially on opening the tab. Leave blank to have the tab just open a command prompt in the directory.
 
+_Note: Use Powershell environment values in `directory` or `command`, such a `$($env:userprofile)` if required._
+
 ## Additional Tabs config
 
 A common scenario is that teams would define a `config.json` in a repo to share this between all team members. However, you team members may want to add their own tabs but without having to edit the `config.json` committed to source to avoid undoing changes when pulling any changes to this repo.
@@ -97,6 +99,8 @@ To allow ad-hoc executions to take place outside of individual tabs - to initial
 `PreScript.ps1` alongside your `config.json`
 
 Similar to the additional tabs config, you can optionally also create a `PreScript-Additions.ps1` to allow users to add their own executions. Again, you will want to add this to a `.gitignore` of your config repo.
+
+_Note: Do not use blocking commands in the PreScript. Run blocking commands in tabs using the above config, or else launch new terminal windows from the PreScript._
 
 ## Execution arguments (for within the script)
 
