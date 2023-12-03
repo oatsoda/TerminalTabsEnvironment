@@ -2,43 +2,56 @@
 
 Script to launch multiple Windows Terminal tabs based on a config.
 
+For an example of how to create your own repo to share with your team, see [https://github.com/oatsoda/TerminalTabsEnvironment-Example](https://github.com/oatsoda/TerminalTabsEnvironment-Example)
+
 ## Pre-requisites
 
 Ensure you have [Windows Terminal](https://aka.ms/terminal) installed.
 
 ## Instructions
 
-1. Clone the repo.
-2. Create a config.json file (see sample), preferably not in the cloned folder. See recommendation below
-3. Create a .bat file to execute:
+1. Create a new repo for sharing your Development Environment with your team.
+2. Create a config.json file in the repo defining the tabs and what you want auto-executed in them (execution optional)
+3. (Optionally) create a PreScript.ps1 to execute any standard startup executions.
+4. Add a .gitignore file containing:
 
-> {path-to-cloned-repo>}\StartEnvironment.ps1 -ConfigFilePath {path-to-your-config}\config.json -BaseTabPath {path-to-execute-from}
+```
+config-additions.json
+PreScript-Additions.ps1
+```
 
-1. Create a shortcut to the .bat file on your desktop for easy daily startup.
+5. Add the TerminalTabsEnvironment submodule with
 
-## Recommendation
+```
+git clone https://github.com/oatsoda/TerminalTabsEnvironment.git
+```
 
-If using this to work with multiple repositories, for simplicity, it's best to structure your folders with each repo alongside, and with your config alongside too:
+Your team members then clone this repo alongside other code repos you have:
 
 ```
 ├── BasePath
 │ ├── Repo1
 │ ├── Repo2
-│ ├── TTE
+│ ├── DeveloperEnvironment (or whatever you called your repo)
 │ │ ├── config.json
+│ │ ├── PreScript.ps1
+│ │ ├── .gitignore
 ```
 
-## Example
+They then:
 
-TerminalTabsEnvironment is cloned to `C:\source\TerminalTabsEnvironment`
+1. Create a .bat file to execute:
 
-My code repos are cloned under `C:\source\myrepos\`, e.g. `C:\source\myrepos\repo1`, `C:\source\myrepos\repo2`
+> {path-to-BasePath}\DeveloperEnvironment\TerminalTabsEnvironment\StartEnvironment.ps1 -ConfigFolderPath {path-to-BasePath}\DeveloperEnvironment -BaseTabPath {path-to-BasePath}
 
-- Create a folder (you might want to actually make this a repo so you can share a basic outline of the config with your team and use relative paths in the config.json)
+2. (Optionally) create a `config-additions.json` to configure additional tabs for their own purposes.
+3. (Optionally) create a `PreScript-Additions.ps1` to configure additional startup executions.
 
-e.g. c:\source\TTE
+For an example of how to create your own repo to share with your team, see [https://github.com/oatsoda/TerminalTabsEnvironment-Example](https://github.com/oatsoda/TerminalTabsEnvironment-Example)
 
-- Create a `config.json` in the new folder with the following content:
+## Config format
+
+Example:
 
 ```json
 {
@@ -62,22 +75,6 @@ e.g. c:\source\TTE
 }
 ```
 
-- Create a `start.bat` file in the new folder with the following content:
-
-```
-c:\source\TerminalTabsEnvironment\StartEnvironment.ps1 -ConfigFilePath c:\source\myrepos\TTE\config.json -BaseTabPath c:\source\myrepos
-```
-
-- Running the `start.bat` will open a new Windows Terminal with two tabs, the first in the `repo1` folder, the second in the `repo2` folder.
-
-Of course, you can execute commands automatically within those folders, e.g. `dotnet run`, `yarn run` etc.
-
-## Execution arguments
-
-- `ConfigFilePath` - The location of your JSON config file.
-- `BaseTabPath` - The base path for your tabs; allows relative paths to be used.
-- `WindowsTerminalProfileName` - The windows terminal profile to use for the tabs.
-
 ## Config options
 
 - `prompt` - Whether you want to be prompted before opening tabs.
@@ -87,3 +84,22 @@ Of course, you can execute commands automatically within those folders, e.g. `do
 - `directory` - The folder with which to open the tab.
 - `isRelative` - Whether the `directory` value is absolute or relative to the provided `BaseTabPath`
 - `command` - The command to execute initially on opening the tab. Leave blank to have the tab just open a command prompt in the directory.
+
+## Additional Tabs config
+
+A common scenario is that teams would define a `config.json` in a repo to share this between all team members. However, you team members may want to add their own tabs but without having to edit the `config.json` committed to source to avoid undoing changes when pulling any changes to this repo.
+
+To avoid this, you can specify a `config-additions.json` file to append more tabs to the config. You will want to add this to a `.gitignore` file to avoid any being committed to source.
+
+## Pre Script
+
+To allow ad-hoc executions to take place outside of individual tabs - to initialise environments or run any non-blocking tasks. To do this, create a powershell script
+`PreScript.ps1` alongside your `config.json`
+
+Similar to the additional tabs config, you can optionally also create a `PreScript-Additions.ps1` to allow users to add their own executions. Again, you will want to add this to a `.gitignore` of your config repo.
+
+## Execution arguments (for within the script)
+
+- `ConfigFolderPath` - The directory which contains your JSON config file (and any additional config/scripts - see below).
+- `BaseTabPath` - The base path for your tabs; allows relative paths to be used.
+- `WindowsTerminalProfileName` - The windows terminal profile to use for the tabs.
