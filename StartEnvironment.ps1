@@ -36,12 +36,16 @@ else {
 		###################################################################################
 
 		$tabs = $config.tabs
+		$prompt = $config.prompt
 
 		$configAdditionsFileFullPath = Join-Path $ConfigFolderPath $ConfigAdditionsFileName
 		if (Test-Path $configAdditionsFileFullPath) {
 			$configAdditions = Get-Content -Raw $configAdditionsFileFullPath | ConvertFrom-Json
 			if ($configAdditions.tabs.length -gt 0)	{
 				$tabs = $tabs + $configAdditions.tabs
+			}
+			if ($null -ne $configAdditions.prompt) {
+				$prompt = $configAdditions.prompt
 			}
 		}
 		
@@ -80,7 +84,7 @@ wt$($windowsTerminalParameters) focus-tab -t $($config.focusTab)"
 		# Prompt if required
 		###################################################################################
 
-		if ($config.prompt) {
+		if ($prompt) {
 			Write-Host -NoNewLine 'Press any key to start...'
 			$null = $Host.UI.RawUI.ReadKey('NoEcho,IncludeKeyDown')
 			Write-Host 

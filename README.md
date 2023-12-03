@@ -87,7 +87,7 @@ Example:
 - `isRelative` - Whether the `directory` value is absolute or relative to the provided `BaseTabPath`
 - `command` - The command to execute initially on opening the tab. Leave blank to have the tab just open a command prompt in the directory.
 
-_Note: Use Powershell environment values in `directory` or `command`, such a `$($env:userprofile)` if required._
+_Note: Use Powershell environment values in `directory` or `command`, such as `$($env:userprofile)` if required._
 
 ## Additional Tabs config
 
