@@ -26,6 +26,12 @@ PreScript-Additions.ps1
 git clone https://github.com/oatsoda/TerminalTabsEnvironment.git
 ```
 
+6. Add a Startup.bat script to plumb it all together, containing:
+
+```
+.\TerminalTabsEnvironment\StartEnvironment.ps1 -ConfigFolderPath . -BaseTabPath ..\
+```
+
 Your team members then clone this repo alongside other code repos you have:
 
 ```
@@ -38,12 +44,9 @@ Your team members then clone this repo alongside other code repos you have:
 │ │ ├── .gitignore
 ```
 
-They then:
+They may then:
 
-1. Create a .bat file to execute:
-
-> {path-to-BasePath}\DeveloperEnvironment\TerminalTabsEnvironment\StartEnvironment.ps1 -ConfigFolderPath {path-to-BasePath}\DeveloperEnvironment -BaseTabPath {path-to-BasePath}
-
+1. (Optionally) Create a shortcut to the `Startup.bat` ready to run each day.
 2. (Optionally) create a `config-additions.json` to configure additional tabs for their own purposes.
 3. (Optionally) create a `PreScript-Additions.ps1` to configure additional startup executions.
 
@@ -64,7 +67,6 @@ Example:
       "isRelative": true,
       "command": ""
     },
-
     {
       "title": "Repo 2",
       "directory": "repo2",
@@ -102,7 +104,7 @@ Similar to the additional tabs config, you can optionally also create a `PreScri
 
 _Note: Do not use blocking commands in the PreScript. Run blocking commands in tabs using the above config, or else launch new terminal windows from the PreScript._
 
-## Execution arguments (for within the script)
+## Execution arguments (for within the Startup.bat)
 
 - `ConfigFolderPath` - The directory which contains your JSON config file (and any additional config/scripts - see below).
 - `BaseTabPath` - The base path for your tabs; allows relative paths to be used.
