@@ -23,7 +23,7 @@ PreScript-Additions.ps1
 5. Add the TerminalTabsEnvironment submodule with
 
 ```
-git clone https://github.com/oatsoda/TerminalTabsEnvironment.git
+git submodule add https://github.com/oatsoda/TerminalTabsEnvironment.git
 ```
 
 6. Add a Startup.bat script to plumb it all together, containing:
